@@ -1,0 +1,28 @@
+plugins {
+    id("org.openapi.generator") version "6.4.0"
+}
+
+group = "org.example"
+version = "1.0-SNAPSHOT"
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+}
+
+
+openApiGenerate {
+    inputSpec = "$rootDir/openapi.yaml".toString()
+    generatorName = "php-symfony"
+    additionalProperties = [
+            apiPackage: "\\Qu\\LaInternalApiServer",
+            artifactVersion: "1.2.3",
+            composerProjectName: "liveagent-internal-api-server",
+            composerVendorName: "qualityunit",
+            "invokerPackage": "Qu\\LaInternalApiServer"
+    ]
+    gitUserId =  "qualityunit"
+    gitRepoId = "liveagent-internal-api-server"
+}
