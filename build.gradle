@@ -17,12 +17,14 @@ openApiGenerate {
     inputSpec = "$rootDir/openapi.yaml".toString()
     generatorName = "php-symfony"
     additionalProperties = [
-            apiPackage: "\\Qu\\LaInternalApiServer",
-            artifactVersion: "1.2.3",
+            artifactVersion: "1.0.5",
             composerProjectName: "liveagent-internal-api-server",
             composerVendorName: "qualityunit",
-            "invokerPackage": "Qu\\LaInternalApiServer"
+            invokerPackage: "Qu\\LaInternalApiServer",
+            bundleAlias: "live_agent_internal_api_server",
+            bundleName: "LiveAgentInternalApiServer"
     ]
+
     gitUserId =  "qualityunit"
     gitRepoId = "liveagent-internal-api-server"
 }

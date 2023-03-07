@@ -13,8 +13,7 @@ externalDocs:
   description: Find out more about Swagger
   url: http://swagger.io
 servers:
-- url: https://petstore.swagger.io/v2
-- url: http://petstore.swagger.io/v2
+- url: /public/api/internal/
 tags:
 - name: events
   description: Calls about Domain events
@@ -22,7 +21,7 @@ tags:
     description: Find out more
     url: http://swagger.io
 paths:
-  /consumers:
+  /handlers:
     get:
       tags:
       - events
@@ -38,22 +37,32 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Consumer'
-  /topics:
-    get:
+        501:
+          description: Async event handler not configured
+  /handlers/{handlerId}/event:
+    post:
       tags:
-      - events
-      summary: Get event-topics mapping
-      description: Topic is defined by unique ID and list of event IDs it contains
-      operationId: getEventTopics
+        - events
+      summary: Execute event handlers
+      description: Execute event handler by handler ID
+      operationId: executeHandler
+      parameters:
+      - name: handlerId
+        in: path
+        description: ID of handler
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HandlerPayload'
       responses:
         200:
           description: successful operation
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Topic'    
+        501:
+          description: Async event handler not configured
 components:
   schemas:
     Consumer:
@@ -70,6 +79,8 @@ components:
       properties:
         id:
           type: string
+        topic:
+          type: string
     Topic:
       type: object
       properties:
@@ -79,3 +90,10 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Event'
+    HandlerPayload:
+      type: object
+      properties:
+        event:
+          type: string
+        payload:
+          type: string
