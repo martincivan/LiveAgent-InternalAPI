@@ -1,3 +1,5 @@
+import org.openapitools.generator.gradle.plugin.tasks.GenerateTask
+
 plugins {
     id("org.openapi.generator") version "6.4.0"
 }
@@ -12,8 +14,7 @@ repositories {
 dependencies {
 }
 
-
-openApiGenerate {
+task phpgenerate (type: GenerateTask) {
     inputSpec = "$rootDir/openapi.yaml".toString()
     generatorName = "php-symfony"
     additionalProperties = [
@@ -27,4 +28,21 @@ openApiGenerate {
 
     gitUserId =  "qualityunit"
     gitRepoId = "liveagent-internal-api-server"
+    outputDir = "$buildDir/generate-resources/main"
+}
+
+task pythonClientGenerate(type: GenerateTask) {
+    inputSpec = "$rootDir/openapi.yaml".toString()
+    generatorName = "python-nextgen"
+    additionalProperties = [
+            packageVersion: "1.0.1",
+            packageName: "qu.la_internal",
+            library: "asyncio"
+    ]
+    library = "asyncio"
+
+    gitUserId =  "qualityunit"
+    gitRepoId = "liveagent-internal-api-server"
+    outputDir = "$buildDir/generate-resources/python"
+
 }
