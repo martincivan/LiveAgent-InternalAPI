@@ -31,6 +31,8 @@ paths:
       responses:
         200:
           description: successful operation
+      security:
+        - bearerAuth: [ ]
   /handlers:
     get:
       tags:
@@ -101,3 +103,8 @@ components:
           type: string
         payload:
           type: string
+  securitySchemes:
+    bearerAuth:            # arbitrary name for the security scheme
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
